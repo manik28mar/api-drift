@@ -35,6 +35,14 @@
     "cli"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manik28mar/api-drift.git"
+  },
+  "homepage": "https://github.com/manik28mar/api-drift#readme",
+  "bugs": {
+    "url": "https://github.com/manik28mar/api-drift/issues"
+  },
   "dependencies": {
     "@apidevtools/swagger-parser": "^10.1.0",
     "@babel/parser": "^7.24.0",
