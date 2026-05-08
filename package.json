@@ -1,0 +1,51 @@
+{
+  "name": "api-drift",
+  "version": "0.1.0",
+  "description": "Local CLI that flags drift between fetch/axios calls and an OpenAPI spec. No network, no keys, no costs.",
+  "type": "module",
+  "bin": {
+    "api-drift": "bin/api-drift.js"
+  },
+  "main": "src/cli.js",
+  "exports": {
+    ".": "./src/cli.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "openapi",
+    "drift",
+    "api",
+    "lint",
+    "static-analysis",
+    "fetch",
+    "axios",
+    "cli"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "@babel/parser": "^7.24.0",
+    "@babel/traverse": "^7.24.0",
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "globby": "^14.0.0",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^1.4.0",
+    "vitest": "^1.4.0"
+  }
+}

@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  title: Petstore
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/v1
+paths:
+  /pets:
+    get:
+      summary: List pets
+      responses:
+        '200':
+          description: ok
+    post:
+      summary: Create pet
+      responses:
+        '201':
+          description: created
+  /pets/{petId}:
+    get:
+      summary: Get pet
+      parameters:
+        - $ref: '#/components/parameters/PetId'
+      responses:
+        '200':
+          description: ok
+    delete:
+      summary: Delete pet
+      deprecated: true
+      parameters:
+        - $ref: '#/components/parameters/PetId'
+      responses:
+        '204':
+          description: gone
+  /pets/me:
+    get:
+      summary: Current user's pet (literal collides with /pets/{petId})
+      responses:
+        '200':
+          description: ok
+  /users/{userId}/posts/{postId}:
+    get:
+      summary: Get post
+      responses:
+        '200':
+          description: ok
+components:
+  parameters:
+    PetId:
+      name: petId
+      in: path
+      required: true
+      schema:
+        type: string
