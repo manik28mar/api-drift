@@ -12,7 +12,15 @@ function classifyCall(call, spec) {
     return { ...call, status: 'DYNAMIC', reason: 'method-unresolvable' };
   }
 
-  const normalized = stripBasePath(normalizeUrl(call.url), spec.basePaths);
+  // Template literal where the first path segment is a variable placeholder
+  // e.g. `${BASE_URL}/users` → "{BASE_URL}/users". We can't determine whether
+  // {BASE_URL} corresponds to the spec server, so classify as DYNAMIC.
+  const rawNorm = normalizeUrl(call.url);
+  if (/^\{[^}]+\}\//.test(rawNorm) || rawNorm === '{' || /^\{[^}]+\}$/.test(rawNorm)) {
+    return { ...call, status: 'DYNAMIC', reason: 'url-base-unresolvable' };
+  }
+
+  const normalized = stripBasePath(rawNorm, spec.basePaths);
   const sameMethodMatches = spec.endpoints.filter(
     (e) => e.method === call.method && e.regex.test(normalized)
   );
@@ -32,11 +40,12 @@ function classifyCall(call, spec) {
   );
   if (otherMethods.length > 0) {
     const best = pickBest(otherMethods);
+    const specMethods = [...new Set(otherMethods.map((e) => e.method))].sort().join(', ');
     return {
       ...call,
       status: 'NOT_FOUND',
       matchedPath: best.pathPattern,
-      reason: `method-mismatch (spec has ${best.method}, code uses ${call.method})`,
+      reason: `method-mismatch (spec has ${specMethods}, code uses ${call.method})`,
     };
   }
 
